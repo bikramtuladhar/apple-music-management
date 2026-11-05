@@ -1,0 +1,7 @@
+domains:
+  - crate
+secured: true
+proxy:
+  command: node src/server.js
+  port: 4322
+  inject_host: false

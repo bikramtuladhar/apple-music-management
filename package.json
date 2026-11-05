@@ -1,0 +1,22 @@
+{
+  "name": "apple-music-management",
+  "version": "1.0.0",
+  "description": "Full-featured Apple Music Management API, Smart Categorizer (TikTok/Listening History), Local Web Console & MCP Server",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "mcp": "node src/mcp/server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@google/genai": "^2.29.1",
+    "@modelcontextprotocol/sdk": "^1.11.0",
+    "express": "^5.1.0",
+    "zod": "^3.24.2"
+  }
+}

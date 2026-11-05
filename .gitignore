@@ -1,0 +1,7 @@
+node_modules/
+data/library-store.json
+data/*-backup.json
+.DS_Store
+data/library-store.*.json
+data/play-history.json
+.claude/worktrees/
