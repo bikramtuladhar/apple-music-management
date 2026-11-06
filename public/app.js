@@ -1301,10 +1301,13 @@ document.getElementById('discoverView').addEventListener('click', (e) => {
 
 initDialogLightDismissFallbacks();
 bindEvents();
-loadInitialData().catch((err) => showToast(`Failed to load library: ${err.message}`));
+loadInitialData()
+  .then(() => location.hash === '#discover' && showDiscover()) // deep link: /#discover
+  .catch((err) => showToast(`Failed to load library: ${err.message}`));
 watchCategorizeJob(); // resume the progress label if a run is already going (e.g. after a reload)
 pollPlayer();
 // ponytail: 3s polling, switch to SSE if the dock needs to feel instant
 setInterval(() => {
   if (!document.hidden) pollPlayer();
 }, 3000);
+

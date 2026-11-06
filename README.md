@@ -4,6 +4,10 @@ A local-only macOS **Apple Music (`Music.app`) management API, desktop-style web
 
 CRATE directly bridges into macOS `Music.app` via JavaScript for Automation (JXA) and native AppleScript to extract exact play counts, skip counts, last-played timestamps, and track metadata—**without needing a \$99/year Apple Developer token**. It unifies your library across local files, cloud tracks, and playlists, analyzes listening habits (heavy rotation vs. skip magnets), detects TikTok/viral trends via heuristics and an optional AI model (Google Gemini, OpenRouter, OpenCode or any OpenAI-compatible API), and lets you manage and play your library through a web UI or your favorite AI agent.
 
+![Library view: listening tiers, smart and AI-sorted crates, playlists and the track table](docs/screenshots/library.png)
+
+![Discover: picks based on what's playing, your listening recap, and new releases from your artists](docs/screenshots/discover.png)
+
 ---
 
 ## Table of Contents
