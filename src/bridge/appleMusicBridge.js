@@ -616,7 +616,13 @@ export async function createAppleMusicPlaylist({ name, description = '', trackPe
         } catch (e) {}
 
         let addedCount = 0;
-        const present = new Set((targetPl.tracks.persistentID() || []).map(String));
+        // An empty playlist throws "Can't get object" here instead of returning []
+        let present;
+        try {
+          present = new Set((targetPl.tracks.persistentID() || []).map(String));
+        } catch (e) {
+          present = new Set();
+        }
         for (let i = 0; i < targetIds.length; i++) {
           const pid = targetIds[i];
           if (present.has(pid)) continue;
@@ -652,6 +658,7 @@ export async function createAppleMusicPlaylist({ name, description = '', trackPe
   } catch (err) {
     osResult = { ok: false, error: err.message };
   }
+  if (!osResult?.ok) console.error('createAppleMusicPlaylist failed:', osResult?.error);
 
   const persistentID = osResult?.ok ? osResult.persistentID : `PLLOCAL_${Date.now()}`;
   const existingIdx = store.playlists.findIndex(
@@ -675,6 +682,7 @@ export async function createAppleMusicPlaylist({ name, description = '', trackPe
     smart: false,
     syncedToMusicApp: Boolean(osResult?.ok),
     addedInMusicApp: osResult?.addedInMusicApp ?? 0,
+    syncError: osResult?.ok ? null : osResult?.error || 'Music.app did not respond',
     source: osResult?.ok ? 'music.app' : 'demo',
     createdAt: new Date().toISOString()
   };

@@ -671,6 +671,12 @@ async function handleTrackQuickAction(action, persistentID) {
   }
 }
 
+function playlistResultMessage(pl, wanted) {
+  if (!pl.syncedToMusicApp) return `Saved "${pl.name}" here only — Music.app failed: ${pl.syncError}`;
+  const already = wanted - pl.addedInMusicApp;
+  return `"${pl.name}" in Apple Music: added ${pl.addedInMusicApp} song${pl.addedInMusicApp === 1 ? '' : 's'}${already > 0 ? ` (${already} already there or not found)` : ''}`;
+}
+
 async function handleSmartRecipeClick(recipe) {
   try {
     const res = await fetchJson('/api/playlists/smart-generate', {
@@ -678,7 +684,7 @@ async function handleSmartRecipeClick(recipe) {
       body: JSON.stringify({ recipeId: recipe.id })
     });
     await refreshPlaylists();
-    showToast(`Created "${res.playlist.name}" (${res.matchedTrackCount} tracks) in Apple Music`);
+    showToast(playlistResultMessage(res.playlist, res.matchedTrackCount));
   } catch (err) {
     showToast(`Could not generate playlist: ${err.message}`);
   }
@@ -836,7 +842,7 @@ function bindEvents() {
       state.selectedIds.clear();
       await refreshPlaylists();
       renderTracksTable();
-      showToast(`Created playlist "${res.playlist.name}" in Apple Music`);
+      showToast(playlistResultMessage(res.playlist, targetTracks.length));
     } catch (err) {
       showToast(`Error: ${err.message}`);
     }
